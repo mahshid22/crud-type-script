@@ -1,0 +1,5 @@
+@font-face {
+	font-family: Vazir;
+	src:url('./fonts/woff/Vazir-Medium-FD.woff') format('woff'), /* Pretty Modern Browsers */
+		 url('./fonts/woff/Vazir-Medium-FD.woff2') format('woff2'); /* Super Modern Browsers */
+  }

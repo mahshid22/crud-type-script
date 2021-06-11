@@ -1,0 +1,30 @@
+@import "../node_modules/ag-grid-community/src/styles/ag-grid.scss";
+@import "../node_modules/ag-grid-community/src/styles/ag-theme-alpine/sass/ag-theme-alpine-mixin.scss";
+
+.ag-theme-alpine {
+  @include ag-theme-alpine((
+    odd-row-background-color: #BFC8DC,
+  ));
+
+  .ag-header {
+    background-color : #ffc20e,
+    // header-background-color: red,
+  }
+  
+  .ag-header-cell-label {
+   justify-content: center;
+}
+}
+
+.typeScriptForm{
+  margin: 10px;
+}
+
+.typeScriptForm label{
+  margin-left: 5px;
+  margin-right: 10px;
+}
+
+.typeScriptForm input{
+  direction: rtl;
+}
