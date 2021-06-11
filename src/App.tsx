@@ -22,6 +22,7 @@ export interface Row {
 
 export type RowData = Row[];
 
+// If you check my code, I'd be happy to give me feedback.
 const App: FunctionComponent = (): React.ReactElement => {
   const defaultValues: Row = {
     title: '',
