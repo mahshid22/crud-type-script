@@ -38,7 +38,7 @@ const App: FunctionComponent = (): React.ReactElement => {
   const [rowData, setRowData] = useState<RowData>([]);
   const { register, handleSubmit, setValue, control, reset } = useForm<Row>({ defaultValues });
 
-  // define columns default
+  // define columns default and grid func
   const columnDefs = [
     { headerName: "ردیف", field: "id", },
     { headerName: "عنوان", field: "title", },
@@ -46,6 +46,7 @@ const App: FunctionComponent = (): React.ReactElement => {
     { headerName: "تعداد دانش آموز", field: "studentNumber", sortable: false },
   ]
 
+  // Get AG-Grid API and get DATA
   const onGridReady = (params: GridReadyEvent) => {
     setGridApi(params.api);
     setGridColumnApi(params.columnApi);
@@ -58,7 +59,7 @@ const App: FunctionComponent = (): React.ReactElement => {
   };
 
   // *************** CRUD OPERATIONS*************
-  // get rows
+  // get rows (GET)
   const getRows = () => {
     axios.get('http://localhost:3001/posts')
       .then(function (response) {
@@ -77,6 +78,7 @@ const App: FunctionComponent = (): React.ReactElement => {
     reset(defaultValues)
   }
 
+  // handle submit form ( POST and PUT)
   const onSubmit: SubmitHandler<Row> = (data: Row) => {
     console.log(data);
     if (gridApi !== undefined) {
@@ -117,7 +119,6 @@ const App: FunctionComponent = (): React.ReactElement => {
 
   // edit row
   const handleEditNewRow: React.MouseEventHandler<HTMLButtonElement> = (): void => {
-
     if (gridApi !== undefined) {
       let nodes: RowNode[] = gridApi.getSelectedNodes()
       if (nodes[0]) {
@@ -136,7 +137,7 @@ const App: FunctionComponent = (): React.ReactElement => {
     }
   }
 
-  // delete row
+  // delete row (DELETE)
   const handleDeleteNewRow: React.MouseEventHandler<HTMLButtonElement> = (): void => {
     if (gridApi !== undefined) {
       let nodes: RowNode[] = gridApi.getSelectedNodes()      
@@ -160,13 +161,14 @@ const App: FunctionComponent = (): React.ReactElement => {
   return (
     <div className="container">
       <div className="card ">
+        {/* Button Group */}
         <div className="card-body d-flex flex-row-reverse">
           <Button onClick={handleAddNewRow} className="mx-2" variant="success">ثبت</Button> {' '}
           <Button onClick={handleEditNewRow} className="mx-2" variant="warning">ویرایش</Button> {' '}
           <Button onClick={handleDeleteNewRow} className="mx-2" variant="danger">حذف</Button> {' '}
         </div>
       </div>
-
+      {/* Form */}
       {showForm && <form onSubmit={handleSubmit(onSubmit)} className="d-flex flex-row-reverse typeScriptForm">
         <Controller
           name="title"
@@ -200,6 +202,7 @@ const App: FunctionComponent = (): React.ReactElement => {
         />
         <Button type="submit" variant="primary" className="mx-2">{submitBtnTxt}</Button>
       </form>}
+      {/* Grid Table */}
       <div className="ag-theme-alpine " style={{ height: '90vh', width: '100%' }}>
         <AgGridReact
           rowData={rowData}
@@ -228,6 +231,7 @@ const App: FunctionComponent = (): React.ReactElement => {
           })}
         </AgGridReact>
       </div>
+      {/* Modal MSG */}
       <Modal
         size="sm"
         show={smShow}
@@ -235,9 +239,6 @@ const App: FunctionComponent = (): React.ReactElement => {
         aria-labelledby="example-modal-sizes-title-sm"
       >
         <Modal.Header closeButton>
-          {/* <Modal.Title id="example-modal-sizes-title-sm">
-           توجه فرمایید
-          </Modal.Title> */}
         </Modal.Header>
         <Modal.Body>{modalMsg}</Modal.Body>
       </Modal>
