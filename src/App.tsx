@@ -69,7 +69,7 @@ const App: FunctionComponent = (): React.ReactElement => {
         console.log(error);
       })
   }
-  
+
   // show form / reset inputs /
   const handleAddNewRow: React.MouseEventHandler<HTMLButtonElement> = (): void => {
     if (gridApi !== undefined) gridApi.deselectAll()
@@ -140,7 +140,7 @@ const App: FunctionComponent = (): React.ReactElement => {
   // delete row (DELETE)
   const handleDeleteNewRow: React.MouseEventHandler<HTMLButtonElement> = (): void => {
     if (gridApi !== undefined) {
-      let nodes: RowNode[] = gridApi.getSelectedNodes()      
+      let nodes: RowNode[] = gridApi.getSelectedNodes()
       if (nodes[0]) {
         const node: RowNode = nodes[0]
         axios.delete(`http://localhost:3001/posts/${node.data.id}`,)
@@ -148,6 +148,8 @@ const App: FunctionComponent = (): React.ReactElement => {
             reset(defaultValues)
             getRows()
             setShowForm(false)
+            setModalMsg('سطر با موفقیت حذف شد')
+            setSmShow(true)
           })
           .catch(error => console.error('On change student error', error))
       } else {
@@ -163,7 +165,7 @@ const App: FunctionComponent = (): React.ReactElement => {
       <div className="card ">
         {/* Button Group */}
         <div className="card-body d-flex flex-row-reverse">
-          <Button onClick={handleAddNewRow} className="mx-2" variant="success">ثبت</Button> {' '}
+          <Button onClick={handleAddNewRow} className="mx-2" variant="success">سطر جدید</Button> {' '}
           <Button onClick={handleEditNewRow} className="mx-2" variant="warning">ویرایش</Button> {' '}
           <Button onClick={handleDeleteNewRow} className="mx-2" variant="danger">حذف</Button> {' '}
         </div>
@@ -174,7 +176,7 @@ const App: FunctionComponent = (): React.ReactElement => {
           name="title"
           control={control}
           defaultValue=""
-          render={({ field }) => <InputGroup className="mb-3">
+          render={({ field }) => <InputGroup className="mb-1">
             <FormControl {...field}
               placeholder="عنوان"
             />
@@ -184,7 +186,7 @@ const App: FunctionComponent = (): React.ReactElement => {
           name="author"
           control={control}
           defaultValue=""
-          render={({ field }) => <InputGroup className="mb-3">
+          render={({ field }) => <InputGroup className="mb-1">
             <FormControl {...field}
               placeholder="مدرس"
             />
@@ -194,13 +196,13 @@ const App: FunctionComponent = (): React.ReactElement => {
           name="studentNumber"
           control={control}
           defaultValue=""
-          render={({ field }) => <InputGroup className="mb-3">
+          render={({ field }) => <InputGroup className="mb-1">
             <FormControl {...field}
               placeholder="تعداد دانشجو"
             />
           </InputGroup>}
         />
-        <Button type="submit" variant="primary" className="mx-2">{submitBtnTxt}</Button>
+        <Button type="submit" variant="primary" className="mx-1">{submitBtnTxt}</Button>
       </form>}
       {/* Grid Table */}
       <div className="ag-theme-alpine " style={{ height: '90vh', width: '100%' }}>
@@ -223,7 +225,7 @@ const App: FunctionComponent = (): React.ReactElement => {
           {columnDefs.map((col) => {
             if (col.field === 'id') return <AgGridColumn minWidth={50} cellRenderer={() => ''}
               maxWidth={100} checkboxSelection={true} field={col.field} headerName={col.headerName}
-              filter="agNumberColumnFilter"
+              filter='false'
             />
             return <AgGridColumn field={col.field} headerName={col.headerName} resizable={true}
               filter="agTextColumnFilter"
